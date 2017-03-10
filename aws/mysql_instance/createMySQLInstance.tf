@@ -22,7 +22,7 @@ variable "db_storage_size" {}
 variable "db_default_az" {}
 
 variable "instance_class" {
-	default = "db.t1.micro"
+	default = "db.t2.micro"
 }
 
 resource "aws_db_instance" "mysql" {
