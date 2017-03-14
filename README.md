@@ -2,6 +2,18 @@
 
 This project to develop terraform modules which are re-used across payloads. It also includes scripts which are used in the modules for different payloads.
 
+## Licenses and Copyright
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+ Licensed Materials - Property of IBM
+
+ ©Copyright IBM Corp. 2017.
+
 ## Modules
 
 ### ibmcloud
