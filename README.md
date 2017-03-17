@@ -268,3 +268,18 @@ The variables expected in the module:
 | public_mysql_dns |  | The address of RDS DB instance |
 | cam_user |  | The user for ssh |
 | cam_pwd |  | The user password for ssh |
+
+### local
+#### app_status
+
+This module is to trace the status of application installation.
+
+The variables expected in the module:
+
+| Variable  | Default  | Description |
+| --------- | -------- | ----------- |
+| script_url | https://raw.githubusercontent.com/camc-experimental/terraform-module/master/local/app_status/files/checkHttp.sh | The script to check HTTP response |
+| script_name | checkHttp.sh | The name of script |
+| script_variables | ""  | The variables of script |
+| prior_custom_commands | sleep 1 | The custom commands executed before the script |
+| posterior_custom_commands | sleep 1 | The custom commands executed after the script |
