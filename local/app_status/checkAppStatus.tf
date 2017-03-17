@@ -14,7 +14,7 @@
 ################################################################
 
 variable "script_url" {
-  default = "https://raw.githubusercontent.com/camc-experimental/terraform-module/master/local/app_status/files/checkHttp.sh"
+  default = "https://raw.githubusercontent.com/camc-experimental/terraform-modules/master/local/app_status/files/checkHttp.sh"
 }
 variable "script_name" {
   default = "checkHttp.sh"
