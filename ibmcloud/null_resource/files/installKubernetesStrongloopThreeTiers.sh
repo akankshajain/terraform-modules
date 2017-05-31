@@ -15,23 +15,27 @@
 #################################################################
 
 set -o errexit
-set -o nounset
 set -o pipefail
+#ignore checking unbounded variable to support back-compatibility
+#set -o nounset
+
 
 LOGFILE="/var/log/install_kubernetes_strongloop_three_tiers.log"
 
-# number of strongloop and angular services 
+#number of strongloop and angular services 
 Count=$1
-# user password for mongoDB access
+#user password for mongoDB access
 DBUserPwd=$2
+#url to download scripts
+SCRIPT_REPO=$3
 
-SCRIPT_REPO=https://raw.githubusercontent.com/camc-experimental/terraform-modules/master/ibmcloud/virtual_guest/files/installStrongloopThreeTiers
+#to support back-compatible
+if [ -z "$SCRIPT_REPO" ]; then
+    SCRIPT_REPO=https://raw.githubusercontent.com/camc-experimental/terraform-modules/master/ibmcloud/virtual_guest/files/installStrongloopThreeTiers
+fi
+
 STRONGLOOP_SCRIPT_URL=$SCRIPT_REPO/installStrongloop.sh
 ANGULAR_SCRIPT_URL=$SCRIPT_REPO/installAngularJs.sh
-
-SAMPLE_REPO=https://raw.githubusercontent.com/camc-experimental/softlayer-postinstall-scripts/master/samples
-STRONGLOOP_SAMPLE_URL=$SAMPLE_REPO/strongloop-three-tiers-strongloop-sample.tar.gz
-ANGULAR_SAMPLE_URL=$SAMPLE_REPO/strongloop-three-tiers-angular-sample.tar.gz
 
 MYIP=$(hostname --ip-address)
 
@@ -118,7 +122,7 @@ spec:
       - name: todolist-strongloop
         image: centos:latest
         command: ["/bin/bash"]
-        args: ["-c", "curl -k -o installStrongloop.sh $STRONGLOOP_SCRIPT_URL;bash installStrongloop.sh $STRONGLOOP_SAMPLE_URL $MYIP $DBUserPwd false;sleep infinity"]
+        args: ["-c", "curl -k -o installStrongloop.sh $STRONGLOOP_SCRIPT_URL;bash installStrongloop.sh not_required $MYIP $DBUserPwd false;sleep infinity"]
         ports:
         - containerPort: 3000
 EOF
@@ -166,7 +170,7 @@ spec:
       - name: todolist-angularjs
         image: centos:latest
         command: ["/bin/bash"]
-        args: ["-c", "curl -k -o installAngularJs.sh  $ANGULAR_SCRIPT_URL;bash installAngularJs.sh $ANGULAR_SAMPLE_URL $MYIP 8090 false;sleep infinity"]
+        args: ["-c", "curl -k -o installAngularJs.sh  $ANGULAR_SCRIPT_URL;bash installAngularJs.sh not_required $MYIP 8090 false;sleep infinity"]
         ports:
         - containerPort: 8090
 EOF
@@ -192,3 +196,4 @@ spec:
 EOF
 
 kubectl create -f todolist-angularjs-service.yaml          >> $LOGFILE 2>&1 || { echo "---Failed to create todolist-anngular service---" | tee -a $LOGFILE; exit 1; }
+
